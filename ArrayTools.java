@@ -263,6 +263,26 @@ public class ArrayTools {
 		return deviation / array.length;
 	} //meanDeviation method
 	
+	public static double standardDeviation (double[] array, boolean isPopulation) {
+		double mean = mean(array);
+		double deviation = 0;
+		int total = array.length;
+		
+		for (double d : array) {
+			deviation += Math.pow(mean - d, 2);
+		} //for loop
+		
+		if (!isPopulation) {
+			total--;
+		} //if structure
+		
+		return Math.sqrt(deviation / total);
+	} //standardDeviation method
+	
+	public static double standardDeviation (double[] array) {
+		return standardDeviation(array, true);
+	} //standardDeviation method
+	
 	public static double interquartileRange (double[] array) {
 		ArrayTools.insSort(array);
 		double q1, q3;
