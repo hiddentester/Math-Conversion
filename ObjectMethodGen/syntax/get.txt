@@ -1,0 +1,4 @@
+3
+public type getVarName () {
+	return varName;
+} //getVarName method

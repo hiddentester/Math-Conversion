@@ -1,0 +1,4 @@
+3
+public void setVarName (type varName) {
+	this.varName = varName;
+} //setVarName method
