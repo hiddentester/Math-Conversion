@@ -1,8 +1,8 @@
 /*******************************************************************************
- * File Name:		ObjectMethodGen.java
- * Name:	 	   	hiddentester
- * Date:	 	   	2016/11/12
- * Description:	This program generates accessors, mutators, and constructors.
+ * File Name:     ObjectMethodGen.java
+ * Name:          hiddentester
+ * Date:          2016/11/12
+ * Description:   This program generates accessors, mutators, and constructors.
  *******************************************************************************/
 
 import java.util.*;
@@ -16,6 +16,7 @@ public class ObjectMethodGen {
 		final String FILE_NAME = "FileName";
 		final String ARGS = "args";
 		final String ASSIGNMENT = "assignment";
+		final String IS_STATIC = "isStatic ";
 		final String TYPE = "type";
 		final String VAR_NAME_1 = "varName";
 		final String VAR_NAME_2 = "VarName";
@@ -31,12 +32,12 @@ public class ObjectMethodGen {
 		String fileName = "FileName";
 		ArrayList type = new ArrayList(), varName = new ArrayList(), isStatic = new ArrayList();
 		
-	   BufferedReader in;
+		BufferedReader in;
 		Scanner sc = new Scanner(System.in);
-	   
+		
 		//Load syntax
 		for (int file = 0; file < SYNTAX_FILES.length; file++) {
-		   try {
+			try {
 				String input;
 		 		in = new BufferedReader(new FileReader(SYNTAX_DIRECTORY + SYNTAX_FILES[file] + ".txt"));
 				
@@ -47,7 +48,7 @@ public class ObjectMethodGen {
 		 		} //while loop
 				
 		 		in.close();
-		   } catch (IOException e) {
+			} catch (IOException e) {
 		 		System.err.println("There was a problem with the file.");
 		 		System.err.println("Exception: " + e.getMessage());
 			} //try-catch structure
@@ -68,15 +69,15 @@ public class ObjectMethodGen {
 					input = input.replaceFirst(PUBLIC_CLASS, "");
 					fileName = input.substring(0, input.indexOf("{")).trim();
 				//Get variables
-				} else if (input.startsWith(PRIVATE) && input.indexOf(FINAL) == -1) {
-					boolean lineIsStatic = false;
+				} else if (input.startsWith(PRIVATE) && input.indexOf(FINAL) == -1 && input.indexOf("{") == -1) {
+					String lineIsStatic = "";
 					String lineType;
 					String[] lineVarName;
 					input = input.replaceFirst(PRIVATE, "").trim();
 					
 					//Determine if variables are static
 					if (input.startsWith(STATIC)) {
-						lineIsStatic = true;
+						lineIsStatic = STATIC;
 						input = input.replaceFirst(STATIC, "").trim();
 					} //if structure
 					
@@ -112,18 +113,20 @@ public class ObjectMethodGen {
 			String arguments = "";
 			
 			for (int i = 0; i < varName.size(); i++) {
-				if (!(boolean)isStatic.get(i)) {
+				if (((String)isStatic.get(i)).isEmpty()) {
 					arguments += (String)type.get(i) + " " + (String)varName.get(i) + ", ";
 				} //if structure
 			} //for loop
 			
-			arguments = arguments.substring(0, arguments.length() - 2);
+			if (!arguments.isEmpty()) {
+				arguments = arguments.substring(0, arguments.length() - 2);
+			} //if structure
 			
 			//Compile assignments
 			String assignments = "";
 			
 			for (int i = 0; i < varName.size(); i++) {
-				if (!(boolean)isStatic.get(i)) {
+				if (((String)isStatic.get(i)).isEmpty()) {
 					assignments += "this." + (String)varName.get(i) + " = " + (String)varName.get(i) + ";\n\t";
 				} //if structure
 			} //for loop
@@ -142,6 +145,7 @@ public class ObjectMethodGen {
 				for (int file = 1; file < syntax.length; file++) {
 					for (int line = 0; line < syntax[file].length; line++) {
 						System.out.println(syntax[file][line].
+							replaceAll(IS_STATIC, (String)isStatic.get(var)).
 							replaceAll(TYPE, (String)type.get(var)).
 							replaceAll(VAR_NAME_1, (String)varName.get(var)).
 							replaceAll(VAR_NAME_2, ((String)varName.get(var)).toUpperCase().charAt(0) +

@@ -1,4 +1,4 @@
 3
-public type getVarName () {
+public isStatic type getVarName () {
 	return varName;
 } //getVarName method
