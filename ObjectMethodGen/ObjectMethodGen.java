@@ -155,7 +155,7 @@ public class ObjectMethodGen {
 					System.out.println();
 				} //for loop
 			} //for loop
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			System.err.println("Exception: " + e.getMessage());
 		} //try-catch structure
 	} //main method
