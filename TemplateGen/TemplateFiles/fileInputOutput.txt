@@ -1,0 +1,22 @@
+21
+String input;
+File inputFile = new File ("input.txt");
+BufferedReader in;
+File outputFile = new File ("output.txt");
+BufferedWriter out;
+Scanner sc = new Scanner (System.in);
+
+try {
+	in = new BufferedReader(new FileReader(inputFile));
+	out = new BufferedWriter(new FileWriter(outputFile));
+
+	while ((input = in.readLine()) != null) {
+
+	} //while loop
+
+	out.close();
+	in.close();
+} catch (IOException e) {
+	System.err.println("There was a problem with the file.");
+	System.err.println("Exception: " + e.getMessage());
+} //try-catch structure

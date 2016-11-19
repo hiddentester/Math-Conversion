@@ -1,0 +1,4 @@
+3
+public class FILE_NAME {
+	BODY
+} //FILE_NAME class
